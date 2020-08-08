@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: componentprocessingmicroservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ComponentProcessingMicroservice
+  template:
+    metadata:
+      labels:
+        app: ComponentProcessingMicroservice
+    spec:
+      containers:
+      - name: componentprocessingmicroservice
+        image: componentrn.azurecr.io/componentrepos:latest
+        ports:
+        - containerPort: 8080
+      imagePullSecrets:
+      - name: componentsn
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: componentprocessingmicroservice
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+  selector:
+    app: ComponentProcessingMicroservice
